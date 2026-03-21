@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍀 Trevo da Sorte</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#000,#111);
+  color: #fff;
+  text-align: center;
+}
+
+header {
+  background: linear-gradient(90deg,#ffd700,#ff9900);
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo svg { width:40px; }
+
+h1 { color:#000; }
+
+.banner {
+  background-image:url('https://images.unsplash.com/photo-1605902711622-cfb43c44367f');
+  background-size:cover;
+  padding:70px 20px;
+  font-size:28px;
+  font-weight:bold;
+  text-shadow:2px 2px 10px black;
+}
+
+.container { padding:20px; }
+
+.card {
+  background:#1a1a1a;
+  padding:20px;
+  border-radius:15px;
+  margin-bottom:20px;
+  box-shadow:0 0 15px rgba(255,215,0,0.3);
+}
+
+input,button {
+  padding:12px;
+  margin:8px;
+  border-radius:8px;
+  border:none;
+  font-size:16px;
+}
+
+button {
+  background:linear-gradient(90deg,#ffd700,#ff9900);
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover { opacity:0.8; }
+
+.resultado { margin-top:10px; font-weight:bold; }
+
+img {
+  width:100%;
+  max-width:400px;
+  border-radius:15px;
+  margin:10px auto;
+  display:block;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">
+<svg viewBox="0 0 100 100">
+<circle cx="50" cy="30" r="20" fill="green"/>
+<circle cx="30" cy="50" r="20" fill="green"/>
+<circle cx="70" cy="50" r="20" fill="green"/>
+<circle cx="50" cy="70" r="20" fill="green"/>
+<rect x="47" y="70" width="6" height="20" fill="green"/>
+</svg>
+</div>
+<h1>Trevo da Sorte</h1>
+</header>
+
+<div class="banner">
+GANHE ATÉ R$10.000 AGORA 🍀
+</div>
+
+<div class="container">
+
+<div class="card">
+💰 Saldo: R$ <span id="saldo">100</span>
+</div>
+
+<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3">
+
+<div class="card">
+<h3>🎟️ Bilhete Premiado</h3>
+<input type="number" id="numero" placeholder="Escolha (1 a 10)">
+<input type="number" id="valor" placeholder="Valor da aposta">
+<br>
+<button onclick="apostarBilhete()">Tentar sorte</button>
+<div class="resultado" id="resBilhete"></div>
+</div>
+
+<div class="card">
+<h3>🎲 Jogo do Dado</h3>
+<input type="number" id="valorDado" placeholder="Valor da aposta">
+<br>
+<button onclick="jogarDado()">Jogar</button>
+<div class="resultado" id="resDado"></div>
+</div>
+
+<div class="card">
+<h3>🎰 Slot Simples</h3>
+<input type="number" id="valorSlot" placeholder="Valor da aposta">
+<br>
+<button onclick="slot()">Girar</button>
+<div class="resultado" id="resSlot"></div>
+</div>
+
+</div>
+
+<script>
+let saldo = 100;
+
+function atualizar() {
+ document.getElementById('saldo').innerText = saldo;
+}
+
+function apostarBilhete() {
+ let num = parseInt(numero.value);
+ let val = parseFloat(valor.value);
+ let res = document.getElementById('resBilhete');
+ let sorte = Math.floor(Math.random()*10)+1;
+
+ if(!num || num<1 || num>10) return res.innerText="Número inválido";
+ if(!val || val>saldo) return res.innerText="Valor inválido";
+
+ if(num===sorte){
+   let ganho = val*5;
+   saldo += ganho;
+   res.innerText = "🎉 GANHOU R$"+ganho;
+ } else {
+   saldo -= val;
+   res.innerText = "Perdeu! Número: "+sorte;
+ }
+ atualizar();
+}
+
+function jogarDado(){
+ let val = parseFloat(valorDado.value);
+ let res = document.getElementById('resDado');
+ let dado = Math.floor(Math.random()*6)+1;
+
+ if(!val || val>saldo) return res.innerText="Valor inválido";
+
+ if(dado >=4){
+   let ganho = val*2;
+   saldo += ganho;
+   res.innerText = "🎲 Saiu "+dado+" GANHOU R$"+ganho;
+ } else {
+   saldo -= val;
+   res.innerText = "Saiu "+dado+" Perdeu";
+ }
+ atualizar();
+}
+
+function slot(){
+ let val = parseFloat(valorSlot.value);
+ let res = document.getElementById('resSlot');
+ let n1 = Math.floor(Math.random()*3);
+ let n2 = Math.floor(Math.random()*3);
+ let n3 = Math.floor(Math.random()*3);
+
+ if(!val || val>saldo) return res.innerText="Valor inválido";
+
+ if(n1===n2 && n2===n3){
+   let ganho = val*10;
+   saldo += ganho;
+   res.innerText = "🎰 JACKPOT!!! +R$"+ganho;
+ } else {
+   saldo -= val;
+   res.innerText = "🎰 ["+n1+"-"+n2+"-"+n3+"] Perdeu";
+ }
+ atualizar();
+}
+</script>
+
+</body>
+</html>
